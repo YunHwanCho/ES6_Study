@@ -1,0 +1,74 @@
+<!-- //this에 대한 정확한 이해
+1. script에서 쓰이는 this와 오브젝트 안에서 쓰이는 this는 결국 this를 포함하는 상위 오브젝트를 가르킨다.
+2. this를 통해서 오브젝트를 동일하게 생상하는 construct 속 인스턴스를 만들어 낼 수 있다.
+3. 이벤트 리스너에서 사용하면, e.currentTarget과 같이 이벤트가 작동하는 html파트를 보여준다. -->
+
+<div></div>
+<button id = "id">버튼</button>
+<button id="버튼">버튼이에요</button>
+
+<script>
+    // console.log(this)
+    // function 함수(){
+    //     console.log(this)
+    // }
+    document.getElementById("id").addEventListener("click", function(e){
+        console.log(this);
+        console.log(e.currentTarget);
+        var array = [1,2,3];
+        // 함수안에 들어가는 함수 = 콜백함수
+        array.forEach(function(a){
+            console.log(a);
+        });
+    });
+
+    var 오브젝트 = {
+        배열 : ['김', '이', '박', '조'],
+        함수 : function(){
+            console.log(this); //여기서의 this는 오브젝트를 출력함.
+            오브젝트.배열.forEach(function(){
+                console.log(this); //여기서의 this는 window라는 전체 오브젝트를 출력함.
+            })
+            오브젝트.배열.forEach(()=>{
+                console.log(this);
+            })
+        }
+    }
+    오브젝트.함수()
+    
+    //ES6신문법 arrow함수가 쓰일 때 = 입출력 함수를 사용할때 자주 사용 됨
+    var 함수 = (a) => {return a + 10}
+    //장점 : 직관적이고 생략이 가능한경우가 많음. 파라미터가 1개면 () 한줄이면 {}도 생략 가능.
+    [1,2,3,4].forEach((a)=>{console.log(a)})
+
+    var 사람 = {
+        name : '손흥민',
+        sayHi : function(){
+            console.log('안녕 나는 ' + this.name)
+        }
+    }
+    사람.sayHi()
+
+    var 자료 = { 
+     data : [1,2,3,4,5]
+    }
+    자료.전부더하기 = function(){
+        var sum = 0;
+        this.data.forEach(function(a){
+            sum = sum + a;
+            
+        });
+        console.log(sum);
+    }
+    자료.전부더하기();
+
+    document.getElementById('버튼').addEventListener('click', function(){
+        setTimeout(() => {
+            console.log(this.innerHTML)
+
+            
+        }, 1000);
+  });
+
+
+</script>
